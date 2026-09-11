@@ -1,3 +1,5 @@
+package track
+
 type Track struct {
 	ID    string
 	Title string

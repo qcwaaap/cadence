@@ -1,3 +1,7 @@
+package activity
+
+import "fmt"
+
 type Activity struct {
 	ID         int64
 	AvgCadence int
@@ -19,13 +23,7 @@ func FetchActivityFromStrava(id int64) (*Activity, error) {
 		EndPoint:   "/activities",
 	}
 }
-func (a Activity) EstimateTargetBPM() int {
-	return int(float64(a.AvgCadence) * 2.0)
-} // пока так потом добавить таблицу интерфейс для расчета каденса
 
 func (a *Activity) UpdateCadence(newCadence int) {
 	a.AvgCadence = newCadence
 }
-
-
-
