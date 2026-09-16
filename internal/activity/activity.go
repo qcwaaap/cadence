@@ -1,6 +1,16 @@
 package activity
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"io"
+)
+
+type StravaActivityJSON struct {
+	ID         int64   `json:"id"`
+	Name       string  `json:"name"`
+	AvgCadence float64 `json:"average_cadence"`
+}
 
 type Activity struct {
 	ID         int64
@@ -26,4 +36,15 @@ func FetchActivityFromStrava(id int64) (*Activity, error) {
 
 func (a *Activity) UpdateCadence(newCadence int) {
 	a.AvgCadence = newCadence
+}
+func ParseActivityJSON(data []byte) (*StravaActivityJSON, error) {
+	var act StravaActivityJSON
+
+	if err != nil {
+		return fmt.Errorf("failed to parse activity JSON: %w", err)
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	err = json.Unmarshal(body, &act)
+	return &act, nil
 }
