@@ -3,7 +3,6 @@ package activity
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 )
 
 type StravaActivityJSON struct {
@@ -37,14 +36,12 @@ func FetchActivityFromStrava(id int64) (*Activity, error) {
 func (a *Activity) UpdateCadence(newCadence int) {
 	a.AvgCadence = newCadence
 }
-func ParseActivityJSON(data []byte) (*StravaActivityJSON, error) {
-	var act StravaActivityJSON
 
+func ParseActivity(data []byte) (*StravaActivityJSON, error) {
+	var act StravaActivityJSON
+	err := json.Unmarshal(data, &act)
 	if err != nil {
-		return fmt.Errorf("failed to parse activity JSON: %w", err)
+		return nil, fmt.Errorf("failed to parse activity JSON: %w", err)
 	}
-	defer resp.Body.Close()
-	body, err := io.ReadAll(resp.Body)
-	err = json.Unmarshal(body, &act)
 	return &act, nil
 }
