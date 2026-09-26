@@ -45,3 +45,15 @@ func ParseActivity(data []byte) (*StravaActivityJSON, error) {
 	}
 	return &act, nil
 }
+
+func SimulateCadenceReadings(readings []int) <-chan int {
+	ch := make(chan int)
+
+	go func() {
+		for _, r := range readings {
+			ch <- r
+		}
+		close(ch)
+	}()
+	return ch
+}
